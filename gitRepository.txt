@@ -1,0 +1,64 @@
+========================================
+18. TẠO GIT REPOSITORY
+========================================
+
+Có 2 cách tạo Git Repository:
+
+1. Có project sẵn trên máy
+----------------------------------------
+git init
+
+=> Tạo thư mục .git
+=> Biến project thành Git Repository
+
+
+2. Có repository trên GitHub
+----------------------------------------
+git clone <repo-url>
+
+=> Download source code về máy
+=> Tự động cấu hình remote origin
+
+
+========================================
+PHẠM VI GIT REPOSITORY
+========================================
+
+my-project/
+│
+├── .git/       (Git metadata)
+├── README.md
+├── app.js
+├── src/
+│   └── style.css
+└── docs/
+    └── guide.md
+
+git init thực hiện tại thư mục TOP LEVEL
+
+Git sẽ quản lý:
+✔ README.md
+✔ app.js
+✔ src/*
+✔ docs/*
+
+Nguyên tắc:
+
+- Git theo dõi toàn bộ file/folder bên trong thư mục chứa .git
+- Thư mục cha KHÔNG được theo dõi
+- Thư mục con sẽ được theo dõi
+- .git là trái tim của repository
+
+========================================
+GHI NHỚ NHANH
+========================================
+
+Có project local
+→ git init
+
+Có repo trên GitHub
+→ git clone
+
+git init ở đâu
+→ Git quản lý tất cả bên dưới đó
+

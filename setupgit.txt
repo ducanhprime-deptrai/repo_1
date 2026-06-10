@@ -1,0 +1,355 @@
+================================================================================
+🚀 GIT HANDBOOK - DAVID ĐỨC ANH
+================================================================================
+> Mục tiêu: Làm chủ Git từ cơ bản đến nâng cao phục vụ công việc Android Developer,
+            Jenkins CI/CD và GitHub Workflow.
+--------------------------------------------------------------------------------
+
+================================================================================
+📚 1. GIT LÀ GÌ?
+================================================================================
+Git là hệ thống quản lý phiên bản (Version Control System).
+
+[Lợi ích cốt lõi]
+ * Lưu lịch sử source code gốc và các mốc thay đổi.
+ * Quay lại phiên bản cũ khi code bị lỗi hoặc crash.
+ * Làm việc nhóm không lo đè code của nhau.
+ * Quản lý branch độc lập (Tính năng mới, sửa lỗi...).
+ * Theo dõi chi tiết từng dòng thay đổi của file.
+ * Đồng bộ code an toàn lên đám mây (GitHub, GitLab).
+
+================================================================================
+⚙️ 2. GIT CONFIG (CẤU HÌNH DANH TÍNH)
+================================================================================
+
+📌 XEM CẤU HÌNH HIỆN TẠI:
+--------------------------------------------------------------------------------
+>>> Lệnh xem thông tin riêng lẻ:
+git config --global user.name
+git config --global user.email
+
+>>> Lệnh xem toàn bộ cấu hình đang có:
+git config --global --list
+
+📌 THIẾT LẬP TÀI KHOẢN GIT (GLOBAL):
+--------------------------------------------------------------------------------
+git config --global user.name "DucAnhPrime🔥"
+git config --global user.email "108879626+AnhLinhTheLions@users.noreply.github.com"
+
+📌 XÓA CẤU HÌNH (KHI MUỐN HOÀN TÁC HOẶC RESET):
+--------------------------------------------------------------------------------
+git config --global --unset user.name
+git config --global --unset user.email
+
+================================================================================
+💻 3. COMMAND LINE BASICS (LỆNH TERMINAL CƠ BẢN)
+================================================================================
+
+📌 ĐIỀU HƯỚNG THƯ MỤC:
+--------------------------------------------------------------------------------
+pwd        --> Xem đường dẫn thư mục hiện tại đang đứng.
+cd [tên]   --> Di chuyển vào trong một thư mục cụ thể.
+cd ..      --> Quay lại thư mục cha (ra ngoài 1 cấp).
+cd ~       --> Di chuyển thẳng về thư mục Home của máy tính.
+
+📌 QUẢN LÝ FILE VÀ THƯ MỤC:
+--------------------------------------------------------------------------------
+dir        --> Liệt kê file
+mkdir [tên]--> Tạo một thư mục mới hoàn toàn.
+ls         --> Liệt kê các file/thư mục nhìn thấy được.
+ls -la     --> Hiện toàn bộ file, bao gồm cả file ẩn (như .git).
+touch [tên]--> Tạo nhanh một file mới (Ví dụ: touch README.md).
+
+📌 XÓA MÀN HÌNH TERMINAL (LÀM SẠCH GIAO DIỆN):
+--------------------------------------------------------------------------------
+* Trên Git Bash / Linux / macOS:  clear
+* Trên CMD (Windows):             cls
+
+================================================================================
+🌱 4. KHỞI TẠO REPOSITORY
+================================================================================
+Lệnh biến thư mục hiện tại thành một kho lưu trữ của Git:
+
+git init
+
+[LƯU Ý PRO]: Sau khi chạy, Git sẽ tạo ra một thư mục ẩn tên là `.git`. 
+Mọi lịch sử commit, cấu hình nhánh của bạn đều nằm ở đây. Tuyệt đối không xóa!
+
+================================================================================
+🔍 5. KIỂM TRA TRẠNG THÁI (LỆNH DÙNG NHIỀU NHẤT)
+================================================================================
+Lệnh thần thánh để xem Git đang quản lý file như thế nào:
+
+git status
+
+[Tính năng]: Cho biết chính xác file nào mới tạo, file nào đã sửa, file nào
+đã được đưa vào hàng chờ (Staging Area) và file nào chưa được commit.
+
+================================================================================
+📄 6. STAGING AREA (HÀNG CHỜ COMMIT)
+================================================================================
+
+📌 Đưa một file cụ thể vào hàng chờ:
+git add README.md
+
+📌 Đưa TOÀN BỘ file có thay đổi vào hàng chờ:
+git add .
+
+================================================================================
+💾 7. COMMIT (LƯU LẠI LỊCH SỬ)
+================================================================================
+
+📌 Cú pháp cơ bản:
+git commit -m "Nội dung lời nhắn"
+
+📌 Ví dụ thực tế:
+git commit -m "feat: add login screen"
+
+📌 QUY TẮC COMMIT CHUẨN QUỐC TẾ (CONVENTIONAL COMMITS):
++----------+-------------------------------------------------------------------+
+| Tiền tố  | Ý nghĩa áp dụng                                                   |
++----------+-------------------------------------------------------------------+
+| feat     | Thêm một tính năng mới (Feature)                                  |
+| fix      | Sửa một lỗi/bug (Bug fix)                                         |
+| docs     | Chỉ thay đổi tài liệu, comment, hướng dẫn (Documentation)        |
+| style    | Thay đổi cách format code (khoảng trắng, dấu chấm phẩy, không bug)|
+| refactor | Sửa code nhưng không đổi tính năng (Tối ưu code, sạch code)      |
+| test     | Thêm hoặc sửa các đoạn code kiểm thử (Unit test)                  |
+| chore    | Các tác vụ bảo trì, cập nhật thư viện Gradle, build tool...       |
++----------+-------------------------------------------------------------------+
+
+>>> Ví dụ nâng cao cho Android Dev:
+git commit -m "feat: add payment screen"
+git commit -m "fix: crash login activity"
+git commit -m "docs: update README"
+
+================================================================================
+📜 8. XEM LỊCH SỬ COMMIT
+================================================================================
+
+📌 Xem chi tiết (Đầy đủ tác giả, ngày giờ, mã commit dài):
+git log
+
+📌 Xem dạng rút gọn (Mỗi commit 1 dòng, dễ quét bằng mắt):
+git log --oneline
+
+>>> Kết quả mẫu hiển thị trên Terminal:
+ab123cd feat: add login
+ef456gh fix: api error
+
+================================================================================
+🔄 9. UNDO / RESTORE (HỦY LỆNH VÀ KHÔI PHỤC)
+================================================================================
+
+📌 Bỏ file ra khỏi hàng chờ (Staging Area) nhưng GIỮ NGUYÊN nội dung đã sửa:
+git restore --staged README.md
+
+📌 HỦY TOÀN BỘ thay đổi của file, đưa file về trạng thái của commit gần nhất:
+git restore README.md
+
+📌 Sửa đổi lời nhắn (message) hoặc thêm file vào commit vừa mới chạy xong:
+git commit --amend
+
+================================================================================
+🌿 10. BRANCH (QUẢN LÝ NHÁNH CODE)
+================================================================================
+
+📌 Liệt kê các nhánh đang có và xem mình đang đứng ở nhánh nào:
+git branch
+
+📌 Tạo một nhánh mới (tách ra từ nhánh hiện tại):
+git branch feature-login
+
+📌 Di chuyển chuyển đổi qua lại giữa các nhánh:
+git switch feature-login       <-- (Khuyên dùng cho Git mới)
+git checkout feature-login     <-- (Cách dùng cũ)
+
+📌 Tạo nhánh mới và nhảy sang nhánh đó ngay lập tức:
+git switch -c feature-login    <-- (Khuyên dùng)
+git checkout -b feature-login  <-- (Cách dùng cũ)
+
+📌 Xóa một nhánh (chỉ xóa được khi đã merge code sang nhánh khác):
+git branch -d feature-login
+
+================================================================================
+🔀 11. MERGE (GỘP NHÁNH)
+================================================================================
+Để gộp code từ nhánh tính năng (feature-login) vào nhánh chính (main):
+
+Bước 1: Chuyển về nhánh chính:
+git switch main
+
+Bước 2: Ra lệnh nuốt code từ nhánh tính năng vào:
+git merge feature-login
+
+================================================================================
+🌍 12. GITHUB / REMOTE REPOSITORY
+================================================================================
+
+📌 Tải một project có sẵn từ GitHub về máy tính:
+git clone https://github.com/user/project.git
+
+📌 Liên kết một thư mục Git local dưới máy với kho lưu trữ trên GitHub:
+git remote add origin https://github.com/user/project.git
+
+📌 Kiểm tra xem máy mình đang liên kết với những kho online nào:
+git remote -v
+
+================================================================================
+🚀 13. PUSH & PULL (ĐỒNG BỘ CODE ONLINE)
+================================================================================
+
+📌 Đẩy code lên GitHub lần đầu tiên (để thiết lập dòng chảy mặc định):
+git push -u origin main
+
+📌 Các lần đẩy code tiếp theo (sau khi đã chạy lệnh push -u):
+git push
+
+📌 Kéo code mới nhất từ GitHub về máy và tự động gộp (merge) luôn:
+git pull
+
+📌 Chỉ lấy thông tin code mới về để kiểm tra chứ CHƯA gộp vào máy:
+git fetch
+
+================================================================================
+📦 14. STASH (TẠM CẤT CODE ĐANG LÀM DỞ)
+================================================================================
+Dùng khi đang làm dở tính năng nhưng sếp bắt switch branch gấp để fix bug.
+
+📌 Tạm cất toàn bộ code chưa commit vào một ngăn kéo bí mật:
+git stash
+
+📌 Xem danh sách các gói code đang được cất trong ngăn kéo:
+git stash list
+
+📌 Lấy code từ ngăn kéo ra để làm tiếp và xóa gói lưu trữ đó đi:
+git stash pop
+
+================================================================================
+🔥 15. RESET (QUAY NGƯỢC THỜI GIAN - CẨN THẬN)
+================================================================================
+
+📌 QUAY LẠI 1 COMMIT TRƯỚC: Hủy commit đó nhưng GIỮ NGUYÊN code trong máy:
+git reset --soft HEAD~1
+
+📌 QUAY LẠI 1 COMMIT TRƯỚC: XÓA SẠCH SÀNH SANH toàn bộ code đã viết:
+git reset --hard HEAD~1
+
+⚠️ [CẢNH BÁO CHẾT CHÓC]: Lệnh --hard sẽ xóa vĩnh viễn code chưa commit. 
+Hãy chắc chắn 100% trước khi nhấn Enter!
+
+================================================================================
+↩️ 16. REVERT (HỦY COMMIT AN TOÀN CHO TEAM)
+================================================================================
+Không giống như reset (xóa lịch sử), revert sẽ tạo ra một commit mới có nội dung 
+trái ngược với commit cũ để triệt tiêu lỗi. Rất an toàn khi làm việc nhóm.
+
+git revert commit_id
+
+================================================================================
+⭐ 17. TAG (ĐÁNH DẤU PHIÊN BẢN RELEASE)
+================================================================================
+
+📌 Đánh dấu mốc phiên bản (Ví dụ ứng dụng Android xuất bản bản 1.0):
+git tag v1.0
+
+📌 Xem toàn bộ các tag đang có công khai:
+git tag
+
+📌 Đẩy thông tin tag này lên hệ thống GitHub:
+git push origin v1.0
+
+================================================================================
+🎯 18. REBASE (CẬP NHẬT GỐC NHÁNH)
+================================================================================
+
+📌 Di chuyển toàn bộ gốc của nhánh hiện tại lên đầu commit mới nhất của main:
+git rebase main
+
+📌 Chế độ tối thượng - Gộp/Sửa/Xóa lịch sử nhiều commit cũ cùng lúc:
+git rebase -i HEAD~3
+
+[Ứng dụng Rebase -i]:
+ * Squash commit: Gộp 5-10 commit vụn vặt thành 1 commit lớn cho đẹp.
+ * Rename commit: Sửa lại những lời nhắn commit viết sai chính tả trong quá khứ.
+ * Reorder commit: Sắp xếp lại thứ tự trước sau của các commit.
+
+================================================================================
+🍒 19. CHERRY PICK (NHẶT COMMIT)
+================================================================================
+Dùng khi bạn chỉ muốn lấy đúng 1 commit cụ thể từ nhánh của người khác 
+mang về nhánh của mình, không muốn merge cả cái branch của họ.
+
+git cherry-pick commit_id
+
+================================================================================
+🏆 20. WORKFLOW HẰNG NGÀY (QUY TRÌNH CHUẨN KHI ĐI LÀM)
+================================================================================
+Mỗi sáng đến công ty hoặc trước khi viết code, hãy tuân thủ các bước:
+
+Step 1: Kéo code mới nhất của team về:      git pull
+Step 2: Viết code tính năng Android...      [Coding...]
+Step 3: Xem lại các file đã tác động:       git status
+Step 4: Đưa các file đã sửa vào hàng chờ:   git add .
+Step 5: Ghi lại dấu mốc kèm lời nhắn:       git commit -m "feat: add login api"
+Step 6: Đẩy sản phẩm lên GitHub:            git push
+
+================================================================================
+🚀 21. WORKFLOW TEAM CHUYÊN NGHIỆP (GIT FLOW CƠ BẢN)
+================================================================================
+
+[MÔ HÌNH PHÂN NHÁNH CÂY CODE]
+ main (Chỉ chứa code sạch tuyệt đối để đem xuất bản Google Play)
+  └── develop (Nhánh tích hợp code của toàn bộ đội phát triển)
+       ├── feature/login (Nhánh làm tính năng đăng nhập của Đức Anh)
+       ├── feature/payment (Nhánh làm tính năng thanh toán)
+       └── feature/profile (Nhánh làm thông tin cá nhân)
+
+[LUỒNG ĐI CỦA CODE TRONG DỰ ÁN THỰC TẾ]
+ main (Nhánh gốc)
+  ↓
+ develop (Tách ra từ main)
+  ↓
+ feature/* (Tách từ develop để dev làm tính năng độc lập)
+  ↓
+ Pull Request (Tạo yêu cầu đòi gộp code feature vào develop trên GitHub)
+  ↓
+ Code Review (Sếp và đồng nghiệp vào soi code, check lỗi, thảo luận)
+  ↓
+ Merge develop (Code chuẩn thì được duyệt gộp vào develop)
+  ↓
+ Release main (Cuối tháng code ổn định, gộp từ develop về main để ra bản App mới)
+
+================================================================================
+📋 22. TOP 20 LỆNH GIT BẮT BUỘC THUỘC LÒNG
+================================================================================
+01. git init        06. git log --oneline   11. git merge       16. git fetch
+02. git clone       07. git diff            12. git rebase      17. git pull
+03. git status      08. git branch          13. git stash       18. git push
+04. git add .       09. git switch          14. git stash pop   19. git reset
+05. git commit -m   10. git checkout        15. git remote -v   20. git restore
+
+================================================================================
+🎓 23. LỘ TRÌNH LÊN CẤP GIT POWER USER
+================================================================================
+
+[ ] LEVEL 1: BEGINNER (Hoàn thành trong tuần đầu)
+    - Hiểu cơ chế hoạt động, biết cách tạo commit, lưu lịch sử, đổi danh tính.
+    - Lệnh: config, init, status, add, commit, log.
+
+[ ] LEVEL 2: INTERMEDIATE (Đi làm dự án nhỏ)
+    - Tự tin chia nhánh, gộp nhánh, xử lý khi hai người sửa chung một dòng (Conflict).
+    - Lệnh: branch, switch, merge, remote, push, pull.
+
+[ ] LEVEL 3: ADVANCED (Làm việc nhóm lớn chuyên nghiệp)
+    - Biết giấu code dở, làm sạch lịch sử commit, nhặt commit linh hoạt.
+    - Lệnh: stash, rebase, reset, revert, tag, cherry-pick.
+
+[ ] LEVEL 4: PRO (Chuyên gia CI/CD & Quản lý phát hành)
+    - Master cấu trúc Git Flow, cấu hình tự động hóa build app Android bằng Jenkins, 
+      thiết lập hệ thống chặn commit lỗi bằng Git Hooks trước khi đẩy lên server.
+    - Kỹ năng: Interactive Rebase, PR, GitHub Actions, Jenkins CI/CD, Git Hooks.
+
+--------------------------------------------------------------------------------
+🔥 THỰC HÀNH NHIỀU SẼ THÀNH PHẢN XẠ! CHÚC ĐỨC ANH SỚM LÀM CHỦ CÔNG CỤ NÀY!
+================================================================================
