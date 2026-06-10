@@ -262,3 +262,17 @@ git clone git@github.com:user/repo.git
 ✔ Không phải nhập token mỗi lần push
 ✔ Thuận tiện cho Jenkins/CI-CD
 ✔ Dùng lâu dài cho công việc
+
+
+thực hành cách câu lệnh vs git
+git add:
+mục đích: tự ghi ra cho tôi:
+lệnh cơ bản:
+git add filename.txt add 1 file cụ thể
+git add . add tất cả file đã thay đổi
+git add src/ # add toàn bộ folder
+
+git commit 
+mục đích:
+lệnh cơ bản:
+git commit -m"nọi dung"
