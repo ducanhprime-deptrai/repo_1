@@ -283,4 +283,19 @@ mục đích: tự ghi cho tôi
 lệnh cơ bản :
 git log # xem lại toàn bộ lịch sử 
 git log --oneline # hiển thị gọn gàng 1 dòng commit
-git log -3 # chỉ xem 3 dòng gần nhấtgit log --author="AICoding" # xem commit của người cụ thể
+git log -3 # chỉ xem 3 dòng gần nhất
+git log --author="AICoding" # xem commit của người cụ thể
+git log --author "Duc" --oneline
+
+
+
+
+
+-----------------------------------------------------
+git remote + gist push
+làm sao để chia sẻ code với đồng nghiệp?
+làm sao để backup code lên cloud?
+làm sao để collaborate trong team?
+
+git remote - kiểm tra kết nối
+lệnh: git remote -v
