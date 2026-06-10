@@ -276,3 +276,11 @@ git commit
 mục đích:
 lệnh cơ bản:
 git commit -m"nọi dung"
+
+
+git log
+mục đích: tự ghi cho tôi
+lệnh cơ bản :
+git log # xem lại toàn bộ lịch sử 
+git log --oneline # hiển thị gọn gàng 1 dòng commit
+git log -3 # chỉ xem 3 dòng gần nhấtgit log --author="AICoding" # xem commit của người cụ thể
