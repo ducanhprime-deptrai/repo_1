@@ -1,301 +1,122 @@
-========================================
-18. TẠO GIT REPOSITORY
-========================================
-
-Có 2 cách tạo Git Repository:
-
-1. Có project sẵn trên máy
-----------------------------------------
-git init
-
-=> Tạo thư mục .git
-=> Biến project thành Git Repository
-
-
-2. Có repository trên GitHub
-----------------------------------------
-git clone <repo-url>
-
-=> Download source code về máy
-=> Tự động cấu hình remote origin
-
-
-========================================
-PHẠM VI GIT REPOSITORY
-========================================
-
-my-project/
-│
-├── .git/       (Git metadata)
-├── README.md
-├── app.js
-├── src/
-│   └── style.css
-└── docs/
-    └── guide.md
-
-git init thực hiện tại thư mục TOP LEVEL
-
-Git sẽ quản lý:
-✔ README.md
-✔ app.js
-✔ src/*
-✔ docs/*
-
-Nguyên tắc:
-
-- Git theo dõi toàn bộ file/folder bên trong thư mục chứa .git
-- Thư mục cha KHÔNG được theo dõi
-- Thư mục con sẽ được theo dõi
-- .git là trái tim của repository
-
-========================================
-GHI NHỚ NHANH
-========================================
-
-Có project local
-→ git init
-
-Có repo trên GitHub
-→ git clone
-
-git init ở đâu
-→ Git quản lý tất cả bên dưới đó
-
-----------------------------------------------------------------------------
 ===============================================================================
-                       GIT & GITHUB INTERVIEW CHEAT SHEET
-                       Tong Hop Cac Lenh Da Hoc & Cac Loi Thong Dung
+                       GIT & GITHUB MASTER CHEAT SHEET
+                  Tài Liệu Ôn Thi Phỏng Vấn Thực Chiến (Cập Nhật)
 ===============================================================================
 
--------------------------------------------------------------------------------
-PART 1: QUY TRINH LUU TRU VA DONG BO CODE (3 BUOC THAN CHU)
--------------------------------------------------------------------------------
-Moi khi thay doi noi dung file, tao file moi va an Ctrl + S, hay thuc hien:
+========================================
+PHẦN 1: BẢN CHẤT VÀ KHỞI TẠO GIT REPOSITORY
+========================================
+Mục đích: Biến một thư mục bình thường thành một kho lưu trữ được Git theo dõi, hoặc lấy một dự án có sẵn từ trên mạng về máy.
 
-1. Kiem tra trang thai hien tai cua thu muc:
-   $ git status
-   -> Y nghia: Xem cac file nao da bi thay doi (mau do) hoac chua duoc theo doi.
+1. Có project sẵn trên máy (Local)
+----------------------------------------
+* Lệnh: git init
+* Tác dụng: Tạo ra một thư mục ẩn tên là `.git` (đây là trái tim của Repository).
+* Phạm vi hoạt động: Git init ở đâu (thư mục TOP LEVEL), Git sẽ quản lý tất cả file và folder con bên dưới đó. Thư mục cha (nằm ngoài) KHÔNG được theo dõi.
 
-2. BUOC 1: Dua file vao Vung cho (Staging Area)
-   $ git add .
-   -> Y nghia: Gom TAT CA cac file thay doi de chuan bi dong goi.
-   -> Luu y: Bat buoc phai co dau cach (khoang trang) tuong ung truoc dau cham.
+2. Có repository sẵn trên GitHub (Remote)
+----------------------------------------
+* Lệnh: git clone <repo-url>
+* Tác dụng: Download toàn bộ source code và lịch sử từ mạng về máy. Tự động cấu hình kết nối sẵn với mạng (remote origin).
 
-3. BUOC 2: Chinh thuc luu lai vao lich su Local (Commit)
-   $ git commit -m "Noi dung ghi chu ngan gon"
-   -> Y nghia: Tao mot phien ban luu tru tren may ca nhan kem loi nhan giai thich.
+❓ CÂU HỎI PHỎNG VẤN #1: 
+Hỏi: "Em hãy phân biệt khi nào thì dùng 'git init', khi nào thì dùng 'git clone'?"
+Đáp: 
+- Dùng `git init` khi em đang code dở một dự án hoàn toàn mới trên máy tính cá nhân và bây giờ mới bắt đầu muốn Git theo dõi nó.
+- Dùng `git clone` khi dự án đó đã tồn tại trên mạng (do em tạo trước hoặc của công ty/đồng nghiệp) và em muốn tải toàn bộ nó về máy để bắt đầu làm việc.
 
-4. BUOC 3: Day code tu may ca nhan len mang (GitHub)
-   $ git push origin main
-   -> Y nghia: Dong bo nhanh 'main' tu local repository len remote repository 'origin'.
 
--------------------------------------------------------------------------------
-PART 2: CAC LENH HO TRO KHAC DA DUNG
--------------------------------------------------------------------------------
-* Khoi tao hoac lam moi Git Repository tai thu muc hien tai:
-  $ git init
-  -> Khi chay lai tren thu muc da co Git, se bao: "Reinitialized existing Git repository..."
+========================================
+PHẦN 2: BẢO MẬT VÀ KẾT NỐI VỚI SSH KEY
+========================================
+Mục đích: Xác thực danh tính của bạn với GitHub một cách tự động và bảo mật tuyệt đối, không cần nhập tài khoản/mật khẩu nhiều lần.
 
-* Huy bo cac thay doi cua mot file, dua ve trang thai cu:
-  $ git restore <ten_file>
+1. Ưu điểm của việc dùng SSH Key (Thay vì HTTPS):
+----------------------------------------
+- Không phải nhập mật khẩu hay token mỗi lần push/pull code.
+- Mức độ bảo mật cao, là tiêu chuẩn bắt buộc khi đi làm tại công ty hoặc kết nối với hệ thống tự động (CI/CD, Server).
 
--------------------------------------------------------------------------------
-PART 3: CAC LOI THUONG GAP (CAU HOI PHONG VAN THUC TE)
--------------------------------------------------------------------------------
+2. Các bước cấu hình (Ghi nhớ nhanh):
+----------------------------------------
+- Bước 1 (Tạo Key): ssh-keygen -t ed25519 -C "email_cua_ban@gmail.com" (Nhấn Enter liên tục để bỏ qua mật khẩu phụ).
+- Bước 2 (Lấy Key): Lấy nội dung tại file ~/.ssh/id_ed25519.pub
+- Bước 3 (Gắn Key): Lên GitHub -> Settings -> SSH and GPG Keys -> Paste mã vào.
+- Bước 4 (Test): ssh -T git@github.com (Thấy báo "Hi username! You've successfully authenticated" là thành công).
 
-LOI 1: Git bao file bi "modified" du da doi ten hoac bam Ctrl + S nhung tinh trang van do.
-- Nguyen nhan: Do Windows mac dinh an duoi mo rong (.md, .txt). Khi bam F2 sua 
-  "README.md" thanh "README.txt", thuc chat ten file bien thanh "README.txt.md".
-- Cach fix: Vao View trong Windows Explorer -> Tich chon "File name extensions" -> 
-  Xoa bo duoi .md bi an di.
+❓ CÂU HỎI PHỎNG VẤN #2:
+Hỏi: "Tại sao các công ty công nghệ thường bắt buộc nhân viên dùng cấu hình Git qua SSH thay vì đường link HTTPS thông thường?"
+Đáp: 
+- Thứ nhất là vì tính bảo mật: Giao thức HTTPS dựa vào mật khẩu hoặc token dễ bị lộ, trong khi SSH dùng cơ chế 'Khóa công khai - Khóa bí mật' an toàn tuyệt đối. 
+- Thứ hai là vì tự động hóa: Khi code được deploy lên Server (thường là Linux không có giao diện), hệ thống dùng SSH Key có thể tự động tải code về mà không cần con người can thiệp nhập mật khẩu.
 
-LOI 2: git: 'add.' is not a git command. See 'git --help'.
-- Nguyen nhan: Viet lien tu "add." khong co dau cach. Git hieu lam 'add.' la mot lenh.
-- Cach fix: Viet dung cu phap co dau cach: git add .
 
-LOI 3: bash: warning: command substitution: ignored null byte in input
-- Nguyen nhan: Khi mo Git Bash, he thong doc Bien moi truong Windows (PATH) hoac 
-  file cau hinh (.bashrc) bi dinh ky tu trong (null byte) hoac loi dinh dang (;;).
-- Cach fix: Vao Edit the system environment variables -> Environment Variables -> 
-  Kiem tra bien Path -> Xoa dong trong hoac dau phan tach bi loi.
+========================================
+PHẦN 3: VÒNG LẶP CODE HÀNG NGÀY (ADD & COMMIT)
+========================================
+Mục đích: Lưu trữ các thay đổi code của bạn vào lịch sử một cách an toàn.
 
--------------------------------------------------------------------------------
-PART 4: KIEN THUC PHONG VAN CAN NHO (CORE CONCEPTS)
--------------------------------------------------------------------------------
-* Mo hinh 3 vung lam viec cua Git:
-  1. Working Directory: Thu muc lam viec tren may (Noi ban go code, file mau do).
-  2. Staging Area: Vung cho (Sau khi `git add .`, file chuyen sang mau xanh).
-  3. Local Repository: Kho luu tru tren may (Sau khi `git commit`, file duoc dong goi).
-  4. Remote Repository: Kho luu tru tren mang nhu GitHub/GitLab (Sau khi `git push`).
+1. Lệnh: git add
+----------------------------------------
+* Mục đích: Gom các file bạn vừa thay đổi vào "Vùng chờ" (Staging Area) để chuẩn bị đóng gói.
+* Các lệnh cơ bản:
+  + git add filename.txt  -> Chỉ thêm 1 file cụ thể.
+  + git add src/          -> Thêm toàn bộ các file trong folder 'src'.
+  + git add .             -> Thêm TẤT CẢ các file thay đổi trong dự án (Có dấu cách trước dấu chấm).
 
-* Phan biet `git add` va `git commit`:
-  - `git add` la hanh dong xep do vao thung hang (chuan bi).
-  - `git commit` la hanh dong niem phong thung hang va danh ma so phien ban (chinh thuc luu).
+2. Lệnh: git commit
+----------------------------------------
+* Mục đích: Chính thức đóng gói (niêm phong) các file trong vùng chờ, dán nhãn lịch sử và lưu vào kho lưu trữ (Local Repository).
+* Lệnh cơ bản: git commit -m "Nội dung ghi chú ngắn gọn nhưng rõ ràng"
 
+❓ CÂU HỎI PHỎNG VẤN #3:
+Hỏi: "Theo em, tại sao Git lại sinh ra bước 'git add' làm vùng đệm (Staging Area) mà không cho phép commit thẳng (lưu thẳng) vào lịch sử luôn?"
+Đáp: 
+- Vùng đệm sinh ra để giúp ta kiểm soát chính xác những gì sắp được lưu. Ví dụ em sửa 5 file, nhưng 3 file là code chuẩn em muốn lưu (commit) trước, còn 2 file đang test dở dang em chưa muốn lưu. Nhờ có `git add`, em chỉ việc add 3 file chuẩn kia để commit, 2 file còn lại vẫn an toàn ở ngoài vùng làm việc.
+
+
+========================================
+PHẦN 4: QUẢN LÝ LỊCH SỬ VÀ TÌM KIẾM (GIT LOG)
+========================================
+Mục đích: Tra cứu, xem lại tiến độ dự án, hoặc tìm kiếm xem ai là người đã viết đoạn code đó vào thời gian nào.
+
+Các lệnh cơ bản thường dùng:
+----------------------------------------
+- git log                     -> Xem lại toàn bộ lịch sử chi tiết (Nhấn phím 'Q' để thoát màn hình xem).
+- git log --oneline           -> Hiển thị lịch sử siêu gọn gàng (Mỗi commit chỉ chiếm 1 dòng gồm Mã Hash và Lời nhắn).
+- git log -3                  -> Chỉ xem 3 commit gần nhất.
+- git log --author="Ten"      -> Lọc và chỉ xem các commit của một người cụ thể (Ví dụ: git log --author "Duc" --oneline).
+
+❓ CÂU HỎI PHỎNG VẤN #4:
+Hỏi: "Dự án của team có hàng ngàn commit, làm sao em tìm nhanh được 5 commit gần nhất do đồng nghiệp tên là 'Nam' thực hiện để kiểm tra lỗi?"
+Đáp: 
+- Rất đơn giản, em sẽ kết hợp các cờ lại với nhau bằng câu lệnh: `git log --author="Nam" -5 --oneline`. Lệnh này sẽ lọc đúng tác giả Nam, lấy 5 kết quả mới nhất và hiển thị dạng rút gọn 1 dòng cho dễ nhìn.
+
+
+========================================
+PHẦN 5: LÀM VIỆC NHÓM & LƯU TRỮ ĐÁM MÂY (GIT REMOTE)
+========================================
+Mục đích: Trả lời cho bài toán: Làm sao để chia sẻ code với đồng nghiệp? Cùng hợp tác (collaborate)? Và backup code an toàn lên Cloud (GitHub)?
+
+Các lệnh quản lý kết nối (Remote):
+----------------------------------------
+- git remote -v               -> Kiểm tra xem máy Local đang kết nối với những kho Remote nào trên mạng.
+- git push origin main        -> Đẩy (Push) toàn bộ lịch sử code từ nhánh 'main' ở máy mình, lên kho lưu trữ 'origin' trên mạng.
+
+❓ CÂU HỎI PHỎNG VẤN #5:
+Hỏi: "Khi em gõ lệnh 'git push origin main', chữ 'origin' ở đây có ý nghĩa thực chất là gì?"
+Đáp: 
+- Chữ 'origin' chỉ là Tên Biệt Danh (alias) mặc định mà Git tự đặt ra để đại diện cho cái đường link URL dài ngoằng của kho lưu trữ trên mạng (ví dụ: git@github.com:user/repo.git). Điều này giúp lập trình viên gõ lệnh nhanh hơn mà không phải copy lại cái link đó mỗi lần push code.
+
+
+========================================
+PHẦN 6: KINH NGHIỆM THỰC CHIẾN & FIX LỖI THƯỜNG GẶP
+========================================
+1. Lỗi: git: 'add.' is not a git command.
+-> Sửa: Do viết liền "add.". Phải viết đúng cú pháp có khoảng trắng: `git add .`
+
+2. Lỗi: Bị kẹt trong màn hình `git log`, gõ nhầm lệnh (VD `cls` thành `csl`) khiến sinh ra file lạ.
+-> Sửa: Đang ở chế độ đọc log, luôn nhớ BẤM PHÍM 'Q' ĐỂ THOÁT ra ngoài dòng lệnh chính trước khi gõ bất kỳ lệnh nào khác. Xóa file rác vừa sinh ra đi.
+
+3. Lỗi: Báo `modified` dù file đã đổi tên (từ .md sang .txt).
+-> Sửa: Do Windows ẩn đuôi mở rộng. Bật "File name extensions" trong View của Folder, kiểm tra xem file có bị dính 2 đuôi (VD: readme.txt.md) không và đổi lại cho đúng.
 ===============================================================================
-
-
-Dell@DESKTOP-BTC93F5 MINGW64 ~
-$ ssh-keygen -t ed25519 -C "ducanh3344@gmail.com"
-Generating public/private ed25519 key pair.
-Enter file in which to save the key (/c/Users/Dell/.ssh/id_ed25519):
-Created directory '/c/Users/Dell/.ssh'.
-Enter passphrase for "/c/Users/Dell/.ssh/id_ed25519" (empty for no passphrase):
-Enter same passphrase again:
-Your identification has been saved in /c/Users/Dell/.ssh/id_ed25519
-Your public key has been saved in /c/Users/Dell/.ssh/id_ed25519.pub
-The key fingerprint is:
-SHA256:hB9QdM24XbNdoTYS3s3un5gVsvf9hNEtzrgLfgGddbU ducanh3344@gmail.com
-The key's randomart image is:
-+--[ED25519 256]--+
-|      .oo .=   .+|
-|       o .o = B +|
-|      . o  * O E.|
-|       o .o * +.o|
-|        S  . .ooo|
-|            .+++.|
-|          . .o++.|
-|         . ...=.=|
-|          ..o+ .*|
-+----[SHA256]-----+
-
-Dell@DESKTOP-BTC93F5 MINGW64 ~
-$
-
-========================================
-CLONE REPOSITORY QUA SSH
-========================================
-
-Điều kiện:
-
-✔ Đã cài Git
-✔ Đã tạo SSH Key
-✔ Đã add SSH Public Key lên GitHub
-
-----------------------------------------
-1. Kiểm tra SSH key
-----------------------------------------
-
-Windows:
-
-C:\Users\<username>\.ssh
-
-Kiểm tra có file:
-
-id_rsa
-id_rsa.pub
-
-hoặc
-
-id_ed25519
-id_ed25519.pub
-
-----------------------------------------
-2. Tạo SSH key (nếu chưa có)
-----------------------------------------
-
-ssh-keygen -t ed25519 -C "email@gmail.com"
-
-Nhấn Enter liên tục.
-
-----------------------------------------
-3. Add SSH key lên GitHub
-----------------------------------------
-
-Copy nội dung:
-
-cat ~/.ssh/id_ed25519.pub
-
-GitHub
-→ Settings
-→ SSH and GPG Keys
-→ New SSH Key
-→ Paste
-
-----------------------------------------
-4. Kiểm tra kết nối
-----------------------------------------
-
-ssh -T git@github.com
-
-Kết quả:
-
-Hi <username>! You've successfully authenticated...
-
-----------------------------------------
-5. Clone repository
-----------------------------------------
-
-Lấy SSH URL:
-
-git@github.com:username/repository.git
-
-Clone:
-
-git clone git@github.com:username/repository.git
-
-Ví dụ:
-
-git clone git@github.com:davidducanh/git-handbook.git
-
-----------------------------------------
-6. Sau khi clone
-----------------------------------------
-
-cd repository
-
-git status
-
-========================================
-GHI NHỚ NHANH
-========================================
-
-HTTPS:
-git clone https://github.com/user/repo.git
-
-SSH:
-git clone git@github.com:user/repo.git
-
-Ưu điểm SSH:
-✔ Không phải nhập password
-✔ Không phải nhập token mỗi lần push
-✔ Thuận tiện cho Jenkins/CI-CD
-✔ Dùng lâu dài cho công việc
-
-
-thực hành cách câu lệnh vs git
-git add:
-mục đích: tự ghi ra cho tôi:
-lệnh cơ bản:
-git add filename.txt add 1 file cụ thể
-git add . add tất cả file đã thay đổi
-git add src/ # add toàn bộ folder
-
-git commit 
-mục đích:
-lệnh cơ bản:
-git commit -m"nọi dung"
-
-
-git log
-mục đích: tự ghi cho tôi
-lệnh cơ bản :
-git log # xem lại toàn bộ lịch sử 
-git log --oneline # hiển thị gọn gàng 1 dòng commit
-git log -3 # chỉ xem 3 dòng gần nhất
-git log --author="AICoding" # xem commit của người cụ thể
-git log --author "Duc" --oneline
-
-
-
-
-
------------------------------------------------------
-git remote + gist push
-làm sao để chia sẻ code với đồng nghiệp?
-làm sao để backup code lên cloud?
-làm sao để collaborate trong team?
-
-git remote - kiểm tra kết nối
-lệnh: git remote -v
