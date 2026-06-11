@@ -24,7 +24,71 @@ Hỏi: "Em hãy phân biệt khi nào thì dùng 'git init', khi nào thì dùng
 Đáp: 
 - Dùng `git init` khi em đang code dở một dự án hoàn toàn mới trên máy tính cá nhân và bây giờ mới bắt đầu muốn Git theo dõi nó.
 - Dùng `git clone` khi dự án đó đã tồn tại trên mạng (do em tạo trước hoặc của công ty/đồng nghiệp) và em muốn tải toàn bộ nó về máy để bắt đầu làm việc.
+ ===============================================================================
+                       CHUYÊN ĐỀ SÂU: LỆNH GIT CLONE
+                 (Cách tải dự án từ trên mạng về máy tính chuẩn xác)
+===============================================================================
 
+Mục đích: Lấy toàn bộ mã nguồn (source code) và toàn bộ lịch sử (commit history) của một Repository có sẵn trên mạng (GitHub/GitLab) về máy tính cá nhân để bắt đầu làm việc.
+
+-------------------------------------------------------------------------------
+1. HAI PHƯƠNG THỨC CLONE CHÍNH (HTTPS vs SSH)
+-------------------------------------------------------------------------------
+* Dùng HTTPS: 
+  - Lệnh: git clone https://github.com/username/repository.git
+  - Đặc điểm: Dễ copy, nhưng làm việc lâu dài sẽ phiền vì liên tục bị hỏi tài khoản/mật khẩu hoặc Token. Càng ngày ít được dùng trong doanh nghiệp.
+
+* Dùng SSH (Ưu tiên bắt buộc khi đi làm):
+  - Lệnh: git clone git@github.com:username/repository.git
+  - Đặc điểm: Yêu cầu máy tính đã cài đặt SSH Key và dán lên GitHub. Kết nối cực nhanh, bảo mật tuyệt đối, push/pull code 1 giây không bao giờ đòi mật khẩu.
+
+-------------------------------------------------------------------------------
+2. QUY TRÌNH 3 BƯỚC CLONE CHUẨN CHỈ (Rất dễ quên Bước 3)
+-------------------------------------------------------------------------------
+Giả sử bạn muốn tải dự án về màn hình Desktop:
+
+- BƯỚC 1: Mở Terminal/Git Bash tại thư mục cha.
+  (Mở CMD hoặc Git Bash tại Desktop)
+
+- BƯỚC 2: Chạy lệnh tải code.
+  $ git clone git@github.com:ducanhprime-deptrai/myfirst_project.git
+  -> Lúc này Git sẽ tự động tạo một thư mục mới tên là 'myfirst_project' trên Desktop và nhét code vào đó.
+
+- BƯỚC 3: "Chui" vào bên trong dự án (CỰC KỲ QUAN TRỌNG)
+  $ cd myfirst_project
+  -> Nếu bạn KHÔNG làm bước này mà gõ luôn lệnh 'git status', hệ thống sẽ báo lỗi 'fatal: not a git repository' vì bạn vẫn đang đứng ở ngoài Desktop. Bắt buộc phải 'cd' vào đúng thư mục dự án vừa tải về thì Git mới hoạt động!
+
+-------------------------------------------------------------------------------
+3. CÁC BIẾN THỂ CỦA LỆNH CLONE (Nâng cao)
+-------------------------------------------------------------------------------
+* Clone về và TỰ ĐỔI TÊN thư mục ngay lập tức:
+  $ git clone git@github.com:username/repo.git ten_thu_muc_moi
+  -> Ví dụ clone dự án của công ty về nhưng muốn lưu ở máy là 'du-an-thang-6' cho dễ nhớ.
+
+* Chỉ clone MỘT NHÁNH cụ thể (Thay vì tải toàn bộ các nhánh cho nhẹ máy):
+  $ git clone -b <tên_nhánh> <url_dự_án>
+  -> Ví dụ: git clone -b dev git@github.com:username/repo.git
+
+-------------------------------------------------------------------------------
+4. CÂU HỎI PHỎNG VẤN THỰC TẾ VỀ GIT CLONE
+-------------------------------------------------------------------------------
+
+❓ CÂU HỎI #1: 
+Hỏi: "Ngày đầu tiên đi làm, em clone dự án của công ty bằng đường link SSH nhưng terminal báo lỗi 'Permission denied (publickey)'. Nguyên nhân là gì và em xử lý thế nào?"
+Đáp: 
+- Lỗi này có nghĩa là "Bị từ chối quyền truy cập". Nguyên nhân là do máy tính em đang dùng chưa được hệ thống Git của công ty nhận diện. 
+- Cách xử lý: Em sẽ dùng lệnh 'ssh-keygen' để tạo một SSH Key mới trên máy tính làm việc này, sau đó copy nội dung file Public Key (.pub) và add vào phần Settings trên tài khoản GitHub/GitLab của công ty.
+
+❓ CÂU HỎI #2: 
+Hỏi: "Anh thấy em vừa clone xong một Repo từ GitHub về. Lập tức em gõ 'git status' nhưng máy báo lỗi 'fatal: not a git repository (or any of the parent directories): .git'. Em giải thích hiện tượng này xem?"
+Đáp: 
+- Lỗi này rất phổ biến ở người mới, lý do là vì em mới chỉ tải thư mục dự án về máy, nhưng em chưa dùng lệnh 'cd' (Change Directory) để di chuyển vị trí làm việc vào bên trong thư mục dự án đó. Git chỉ nhận diện được khi em đang đứng đúng bên trong thư mục chứa file ẩn '.git'.
+
+❓ CÂU HỎI #3:
+Hỏi: "Nếu em clone một dự án hoàn toàn trống (chưa có code, chưa có file README) từ GitHub về, hệ thống sẽ hiện thông báo gì? Đó là lỗi hay tính năng?"
+Đáp: 
+- Hệ thống sẽ hiển thị một dòng cảnh báo: 'warning: You appear to have cloned an empty repository'. Đây hoàn toàn KHÔNG PHẢI là lỗi mà chỉ là một thông báo (warning) bình thường của Git để báo cho lập trình viên biết rằng họ vừa tải một kho lưu trữ rỗng về và cần tự tay tạo file, commit lần đầu tiên.
+===============================================================================
 
 ========================================
 PHẦN 2: BẢO MẬT VÀ KẾT NỐI VỚI SSH KEY
@@ -119,4 +183,200 @@ PHẦN 6: KINH NGHIỆM THỰC CHIẾN & FIX LỖI THƯỜNG GẶP
 
 3. Lỗi: Báo `modified` dù file đã đổi tên (từ .md sang .txt).
 -> Sửa: Do Windows ẩn đuôi mở rộng. Bật "File name extensions" trong View của Folder, kiểm tra xem file có bị dính 2 đuôi (VD: readme.txt.md) không và đổi lại cho đúng.
+===============================================================================
+
+===============================================================================
+                       CHUYÊN ĐỀ SÂU: LỆNH GIT PUSH
+             (Đưa code từ máy lên mạng & Quản lý Nhánh Khi Đi Làm)
+===============================================================================
+
+-------------------------------------------------------------------------------
+1. MỤC ĐÍCH CỦA GIT PUSH
+-------------------------------------------------------------------------------
+* Định nghĩa: Là hành động đồng bộ hóa, đẩy toàn bộ các phiên bản (Commit) bạn đã lưu ở Kho lưu trữ cá nhân (Local Repository) lên trên Kho lưu trữ đám mây (Remote Repository - GitHub/GitLab).
+* Sơ đồ đường đi:
+  [Working Directory] --git add--> [Staging Area] --git commit--> [Local Repo] --git push--> [Remote Repo (GitHub)]
+
+-------------------------------------------------------------------------------
+2. PHÂN BIỆT NHANH MAIN VÀ NHÁNH DEV (CỰC KỲ QUAN TRỌNG KHI ĐI LÀM)
+-------------------------------------------------------------------------------
+Khi vào một dự án thực tế, không bao giờ lập trình viên được phép code chung trên 1 nhánh duy nhất. Ít nhất dự án sẽ chia làm 2 nhánh cốt lõi:
+
+* Nhánh MAIN (Hoặc MASTER):
+  - Bản chất: Là nhánh chứa "Sản phẩm sống", code ở đây đã chạy cực kỳ ổn định, không lỗi và là bản đang cho khách hàng/người dùng sử dụng trực tiếp trên mạng.
+  - Quy tắc: CẤM TUYỆT ĐỐI việc tự ý push thẳng code chưa test lên đây. Nếu làm hỏng nhánh này, toàn bộ hệ thống của công ty sẽ bị sập.
+
+* Nhánh DEV (DEVELOPMENT):
+  - Bản chất: Là nhánh dành cho các lập trình viên "vùng vẫy" để code. Mọi tính năng mới, sửa lỗi, test thử nghiệm đều được đẩy lên đây.
+  - Quy tắc: Cả team sẽ cùng push code lên đây để tích hợp và chạy thử xem có lỗi không trước khi gộp vào nhánh `main`.
+
+-------------------------------------------------------------------------------
+3. CÚ PHÁP CÁC LỆNH PUSH THỰC CHIẾN
+-------------------------------------------------------------------------------
+
+* Lệnh Push lần đầu tiên trong đời của một Nhánh mới:
+  $ git push -u origin main
+  (Hoặc: git push -u origin dev)
+  -> Ý nghĩa chữ "-u" (Upstream): Đặt một "đường dây liên lạc cố định" giữa nhánh ở máy và nhánh trên mạng. Từ lần sau, bạn chỉ cần gõ đúng 2 chữ ngắn gọn: `git push` là Git tự hiểu để đẩy đúng vào nhánh đó.
+
+* Lệnh Push thông thường (Sau khi đã đặt Upstream):
+  $ git push origin main  (Đẩy code local lên nhánh main trên mạng)
+  $ git push origin dev   (Đẩy code local lên nhánh dev trên mạng)
+
+* Lệnh Ép Push (Cực kỳ nguy hiểm - Đi phỏng vấn rất hay hỏi):
+  $ git push origin main --force
+  -> Ý nghĩa: Ghi đè thô bạo code dưới máy của bạn lên GitHub, xóa bỏ sạch sẽ mọi commit của người khác trên mạng nếu chúng bị lệch nhau. 
+
+-------------------------------------------------------------------------------
+4. BẬC THẦY PHỎNG VẤN VỀ GIT PUSH (HỎI XOÁY ĐÁP XOAY)
+-------------------------------------------------------------------------------
+
+❓ CÂU HỎI #1:
+Hỏi: "Khi em vừa gõ lệnh 'git push origin main' thì hệ thống báo lỗi '[rejected - non-fast-forward]'. Em giải thích nguyên nhân và cách xử lý an toàn nhất?"
+Đáp: 
+- Nguyên nhân: Do code trên mạng (GitHub) đang có những commit mới do đồng nghiệp khác vừa đẩy lên mà dưới máy local của em chưa có (máy local bị cũ hơn). Git chặn lại để tránh code của em đè chết code của đồng nghiệp.
+- Cách xử lý an toàn: Tuyệt đối không dùng cờ `--force`. Cách làm đúng là phải gõ `git pull origin main` để kéo code mới trên mạng về máy mình trước, xử lý xung đột (nếu có), bấm lưu lại rồi mới tiến hành `git push` lại lần nữa.
+
+❓ CÂU HỎI #2:
+Hỏi: "Cờ '--force' trong lệnh 'git push' dùng khi nào và tại sao các công ty lại cấm hoặc hạn chế tối đa việc sử dụng nó trên nhánh main?"
+Đáp:
+- Cờ `--force` dùng khi ta muốn ép hệ thống trên mạng phải nghe theo lịch sử commit ở máy local của mình (thường dùng khi ta lỡ commit sai và muốn rewrite lại lịch sử).
+- Các công ty cấm dùng nó trên nhánh `main`/`dev` vì nếu một lập trình viên vô tình dùng `--force` khi chưa kéo code mới của người khác về, lệnh này sẽ XÓA VĨNH VIỄN toàn bộ công sức code của các thành viên khác trong team đã push trước đó.
+
+❓ CÂU HỎI #3:
+Hỏi: "Ngày đầu tiên vào dự án, anh giao cho em code tính năng Đăng nhập. Em sẽ tạo nhánh mới, code xong rồi push thẳng lên nhánh 'main' hay nhánh nào? Tại sao?"
+Đáp:
+- Em sẽ KHÔNG BAO GIỜ push thẳng lên nhánh `main`. Quy trình chuẩn của em là: Tạo một nhánh tính năng riêng cho mình từ nhánh `dev` (ví dụ: `feature/login`), code và commit trên đó. 
+- Sau khi xong, em sẽ push nhánh `feature/login` này lên mạng và tạo một bản yêu cầu gộp code (Pull Request) vào nhánh `dev` để các đàn anh (Leader/Senior) duyệt code trước. Khi mọi thứ ổn định mới gộp dần lên `main`.
+===============================================================================
+
+===============================================================================
+               CHUYÊN ĐỀ SÂU: GIẢI MÃ BỘ LỆNH KHỞI TẠO CỦA GITHUB
+            (Hiểu sâu cờ -M và -u khi Push Kho Lưu Trữ Mới Tinh)
+===============================================================================
+
+Đoạn lệnh gốc bạn lấy từ GitHub:
+  $ echo "# myrepo_2" >> README.md
+  $ git init
+  $ git add README.md
+  $ git commit -m "first commit"
+  $ git branch -M main
+  $ git remote add origin git@github.com:ducanhprime-deptrai/myrepo_2.git
+  $ git push -u origin main
+
+-------------------------------------------------------------------------------
+1. LỆNH `git branch -M main` CÓ TÁC DỤNG GÌ?
+-------------------------------------------------------------------------------
+* Bản chất: Đây là lệnh ĐỔI TÊN nhánh hiện tại của bạn thành "main".
+  - Chữ "-M" viết tắt của "Move/Rename" (Ép buộc đổi tên).
+
+* Tại sao phải dùng nó?
+  - Mặc định, khi bạn gõ `git init` trên các máy tính Windows đời cũ hoặc phiên bản Git cũ, Git sẽ tự động tạo ra nhánh đầu tiên tên là `master`.
+  - Tuy nhiên, từ năm 2020, GitHub và cộng đồng công nghệ quốc tế đã đồng loạt đổi tên nhánh mặc định từ `master` thành `main` (để tránh các từ nhạy cảm liên quan đến lịch sử).
+  - Vì vậy, câu lệnh này giúp đồng bộ tên nhánh ở máy bạn (từ `master`) thành `main` cho khớp 100% với nhánh mặc định trên website GitHub. Nếu không đổi tên, khi bạn push lên GitHub sẽ tự động sinh ra một nhánh tên là `master` nằm song song rất lộn xộn.
+
+-------------------------------------------------------------------------------
+2. TẠI SAO CÓ `git remote add` RỒI MÀ LẠI PHẢI PUSH BẰNG CỜ `-u`?
+-------------------------------------------------------------------------------
+Bạn đã đúng khi nhận ra: Chỉ cần gõ `git remote add origin <link>` là máy tính đã biết đường dẫn lên GitHub rồi. Nhưng lệnh `git push -u origin main` mang một trọng trách lớn hơn thế:
+
+* Chữ "-u" viết tắt của "Upstream" (Thiết lập nhánh theo dõi mặc định).
+* Tác dụng thực tế: 
+  - Lần đầu tiên bạn push, nhánh `main` ở máy tính (Local) và nhánh `main` trên GitHub (Remote) chưa hề biết là chúng thuộc về nhau. 
+  - Khi bạn thêm cờ `-u`, bạn đang làm một động tác "đóng cặp/kết hôn" giữa hai nhánh này lại. Bạn ra lệnh cho Git: "Từ nay về sau, nhánh main ở máy tôi sẽ chịu trách nhiệm đồng bộ trực tiếp với nhánh main trên origin nhé!".
+
+* Cái lợi từ lần Push thứ hai trở đi:
+  - Vì đã dùng cờ `-u` ở lần đầu, từ lần sau mỗi khi sửa code xong, bạn KHÔNG cần phải gõ dài dòng `git push origin main` nữa.
+  - Bạn chỉ cần gõ đúng 2 chữ ngắn gọn: `git push` (hoặc kéo code về bằng `git pull`), Git tự biết vị trí đã kết đôi từ trước để đẩy/kéo đúng mạch, tiết kiệm rất nhiều thời gian gõ phím hàng ngày.
+
+-------------------------------------------------------------------------------
+3. CÂU HỎI PHỎNG VẤN THỰC TẾ VỀ KHỞI TẠO REPO
+-------------------------------------------------------------------------------
+
+❓ CÂU HỎI #1:
+Hỏi: "Anh thấy trong các câu lệnh hướng dẫn của GitHub có lệnh 'git branch -M main'. Nếu anh không chạy lệnh này mà gõ thẳng lệnh 'git push origin master' thì có được không và chuyện gì sẽ xảy ra?"
+Đáp: 
+- Hoàn toàn ĐƯỢC. Code vẫn sẽ được đẩy lên GitHub bình thường. Tuy nhiên, trên giao diện GitHub lúc này sẽ xuất hiện một nhánh mới tên là 'master' chứa code của em, còn nhánh mặc định ban đầu của GitHub tạo ra là 'main' thì lại trống rỗng. Việc này làm dự án bị phân mảnh nhánh không đồng nhất, gây khó khăn cho việc quản lý cấu hình ban đầu.
+
+❓ CÂU HỎI #2:
+Hỏi: "Cờ '-u' trong lệnh 'git push -u origin main' có bắt buộc không? Nếu không dùng thì lập trình viên sẽ gặp bất tiện gì sau này?"
+Đáp: 
+- Cờ '-u' KHÔNG bắt buộc ở góc độ đẩy code (không có nó code vẫn lên mạng). Tuy nhiên, nếu không dùng nó ở lần đầu tiên, Git sẽ không thiết lập quan hệ liên kết (Upstream) giữa nhánh Local và Remote. 
+- Bất tiện là: Từ lần sau trở đi, mỗi lần muốn push hay pull, lập trình viên bắt buộc phải gõ đầy đủ cả cụm 'git push origin main' hoặc 'git pull origin main'. Nếu chỉ gõ trơ trọi 'git push' hoặc 'git pull', Git sẽ báo lỗi vì không biết phải tương tác với nhánh nào trên mạng.
+===============================================================================
+
+
+ ===============================================================================
+                CHUYÊN ĐỀ SÂU: PHÂN BIỆT GIT FETCH VÀ GIT PULL
+                     (Lý Thuyết, Câu Lệnh & Lưu Ý Thực Chiến)
+===============================================================================
+
+-------------------------------------------------------------------------------
+1. BẢN CHẤT VÀ ĐỊNH NGHĨA (Hiểu sâu để không bị lú)
+-------------------------------------------------------------------------------
+Khi đồng nghiệp push code mới lên GitHub, máy tính Local của bạn chưa hề biết điều đó. Để cập nhật dữ liệu, Git cung cấp cho bạn hai cơ chế:
+
+* GIT FETCH (Kiểm tra và Tải về vùng đệm):
+  - Bản chất: Giống như việc bạn sai thám tử lên GitHub kiểm tra xem có gì mới không, nếu có thì "ship" (tải) toàn bộ các commit, nhánh mới đó về một vùng kho lưu trữ ẩn trên máy bạn (gọi là nhánh remote-tracking, ví dụ: origin/main).
+  - Tác động: Nó KHÔNG HỀ chạm vào, không làm thay đổi hay xáo trộn bất kỳ dòng code nào trong thư mục bạn đang gõ (Working Directory).
+
+* GIT PULL (Kéo về và Gộp thẳng vào file đang gõ):
+  - Bản chất: Giống như việc bạn mở cửa cho xe tải chở thẳng code từ GitHub lao thẳng vào nhà bạn. Nó tự động thực hiện việc tải về VÀ gộp luôn (Merge) code mới đó vào nhánh bạn đang đứng làm việc.
+  - Tác động: Nó làm thay đổi trực tiếp file code trên máy bạn ngay lập tức.
+  - Công thức kinh điển: git pull = git fetch + git merge
+
+
+
+-------------------------------------------------------------------------------
+2. CÁC CÂU LỆNH THỰC CHIẾN CẦN NHỚ
+-------------------------------------------------------------------------------
+
+* Nhóm lệnh với GIT FETCH:
+  $ git fetch origin              -> Tải toàn bộ cập nhật của tất cả các nhánh từ remote origin về máy.
+  $ git fetch origin main         -> Chỉ tải cập nhật của riêng nhánh main.
+  $ git log main..origin/main     -> (Mẹo hay) Xem danh sách các commit mới trên mạng có gì khác so với máy local sau khi fetch.
+
+* Nhóm lệnh với GIT PULL:
+  $ git pull origin main          -> Kéo code từ nhánh main trên mạng về gộp thẳng vào nhánh hiện tại.
+  $ git pull                      -> Gõ ngắn gọn (chỉ dùng được nếu trước đó bạn đã push bằng cờ '-u' để thiết lập Upstream).
+
+-------------------------------------------------------------------------------
+3. KHI NÀO NÊN DÙNG CÁI NÀO? (LƯU Ý QUAN TRỌNG)
+-------------------------------------------------------------------------------
+
+* KHI NÀO DÙNG GIT FETCH?
+  - Khi bạn đã rời dự án vài ngày (sau kỳ nghỉ, sau ca nghỉ) và muốn kiểm tra xem team mình đã sửa những gì rồi trước khi bắt tay vào code tiếp.
+  - Khi bạn đang code dở dang một tính năng quan trọng ở máy local, chưa muốn code của người khác xen vào làm lỗi mạch logic hiện tại. Bạn 'fetch' về để xem trước tình hình cho an tâm.
+
+* KHI NÀO DÙNG GIT PULL?
+  - Khi bạn biết chắc chắn đồng nghiệp vừa sửa một file không liên quan đến file của bạn (ví dụ họ sửa CSS, bạn làm Logic Backend), bạn tự tin kéo về luôn cho nhanh.
+  - Trước khi bạn bắt đầu tạo một nhánh mới (Branch) để làm tính năng mới, bạn cần gõ `git pull` ở nhánh `main` để đảm bảo cái móng nhà của mình là phiên bản mới nhất, sạch nhất từ công ty.
+
+-------------------------------------------------------------------------------
+4. BỘ CÂU HỎI PHỎNG VẤN THỰC CHIẾN Xoáy Sâu VÀO FETCH & PULL
+-------------------------------------------------------------------------------
+
+❓ CÂU HỎI #1:
+Hỏi: "Nếu anh gõ lệnh 'git fetch' mà không thấy code trong file của anh thay đổi gì cả, có phải lệnh này bị lỗi hoặc mạng bị rớt không?"
+Đáp: 
+- Dạ không, đó là tính năng cốt lõi của `git fetch`. Lệnh này chỉ thực hiện nhiệm vụ tải lịch sử commit mới từ Remote về lưu ở vùng đệm local (nhánh ẩn `origin/branch_name`) để cập nhật thông tin cho máy tính biết, chứ nó tuyệt đối không tự ý gộp (merge) code vào thư mục làm việc của em. Vì vậy, file code của em giữ nguyên là hoàn toàn đúng bản chất.
+
+❓ CÂU HỎI #2:
+Hỏi: "Tại sao lệnh 'git pull' lại tiềm ẩn nhiều rủi ro hơn 'git fetch' khi làm việc nhóm?"
+Đáp: 
+- Lệnh `git pull` tiềm ẩn rủi ro vì nó tự động thực hiện hành động `git merge` ngay sau khi tải code về. 
+- Nếu ở máy local em đang sửa file A, mà trên GitHub đồng nghiệp cũng vừa sửa file A ở đúng các dòng đó và đã push lên trước. Khi em gõ `git pull`, hệ thống sẽ bị xung đột ngay lập tức (Conflict), ép em phải dừng công việc lại để đi giải quyết xung đột, khiến code dễ bị lỗi nếu em chưa kịp lưu (commit) lại những gì mình đang viết dở.
+
+❓ CÂU HỎI #3:
+Hỏi: "Trước khi gõ 'git pull', em có cần phải commit code hiện tại ở máy em không? Chuyện gì xảy ra nếu em không commit?"
+Đáp: 
+- BẮT BUỘC nên commit hoặc lưu tạm (stash) code lại trước khi `git pull`. 
+- Nếu em không commit mà file em đang sửa trùng với file code mới trên mạng, Git sẽ chặn lệnh pull lại và báo lỗi: 'Your local changes to the following files would be overwritten by merge'. Git làm vậy để bảo vệ công sức của em không bị đè chết. 
+- Do đó, quy trình an toàn là: Viết code xong -> git add -> git commit ở máy mình -> rồi mới gõ `git pull` để lấy code mới về gộp.
+
+❓ CÂU HỎI #4:
+Hỏi: "Em có biết lệnh 'git pull --rebase' không? Nó khác gì so với 'git pull' thông thường?"
+Đáp: (Đây là câu hỏi phân loại ứng viên Khá/Giỏi)
+- `git pull` thông thường sẽ dùng cơ chế **Merge**: Khi gộp code sẽ tự động sinh ra một commit trung gian gọi là "Merge commit", làm cây lịch sử (git log) có các đường nhánh rẽ ra gộp vào trông như mạng nhện.
+- `git pull --rebase` dùng cơ chế **Rebase**: Nó sẽ tạm thời "nhấc" các commit mới viết của em ra một chỗ, đặt các commit mới tải trên mạng về vào trước, rồi mới đặt các commit của em nối tiếp vào sau. Cách này giúp lịch sử commit của dự án luôn là một **đường thẳng tắp**, cực kỳ sạch sẽ và dễ đọc khi gõ `git log --oneline`.
 ===============================================================================
